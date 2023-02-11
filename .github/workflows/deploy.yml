@@ -35,7 +35,7 @@ jobs:
       - name: Build Code
         run: |
           cd anywhere-ui-ci-cd-test && npm run build.core
-          cd packages/core && node scripts/docs.js anywhere-ui-ci-cd-test
+          cd packages/core && node scripts/docs.js anywhere-ui-ci-cd-preview
 
       - name: Checkout Preview Project
         uses: actions/checkout@master
@@ -87,7 +87,7 @@ jobs:
       - name: Build Code
         run: |
           cd anywhere-ui-ci-cd-test && npm run build.core
-          cd packages/core && node scripts/docs.js anywhere-ui-ci-cd-test
+          cd packages/core && node scripts/docs.js anywhere-ui-ci-cd-production
 
       - name: Checkout Production Project
         uses: actions/checkout@master
