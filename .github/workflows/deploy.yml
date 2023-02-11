@@ -92,22 +92,22 @@ jobs:
       - name: Checkout Production Project
         uses: actions/checkout@master
         with:
-          repository: gjovanovicst/deploy-site-production
+          repository: gjovanovicst/anywhere-ui-ci-cd-production
           token: ${{ secrets.ACCESS_TOKEN }}
-          path: ./deploy-site-production
+          path: ./anywhere-ui-ci-cd-production
 
       - name: Copy/Create file
         run: |
           FILES=./anywhere-ui-ci-cd-test/packages/core/www
           if [ -d "$FILES" ]; then
             echo "Copying $FILES"
-            cp -R ./anywhere-ui-ci-cd-test/packages/core/www/* ./deploy-site-production
+            cp -R ./anywhere-ui-ci-cd-test/packages/core/www/* ./anywhere-ui-ci-cd-production
           else 
             echo "There is no www folder. Make sure that you build site."
           fi
       - name: Push Deployment Production project
         run: |
-          cd ./deploy-site-production
+          cd ./anywhere-ui-ci-cd-production
           git add .
           if ! git diff-index --quiet HEAD; then
             git config user.name gjovanovicst
