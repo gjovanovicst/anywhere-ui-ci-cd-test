@@ -1,0 +1,85 @@
+{
+  "name": "@anywhere-ui/core",
+  "version": "0.3.0+13",
+  "description": "Base components for AnywhereUI",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/anywhere-ui/anywhere-ui.js",
+  "keywords": [
+    "anywhere-ui",
+    "framework",
+    "stencil",
+    "mobile",
+    "app",
+    "webapp",
+    "capacitor",
+    "cordova",
+    "electron",
+    "progressive web app",
+    "pwa"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adaleks/anywhere-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adaleks/anywhere-ui/issues"
+  },
+  "homepage": "https://adaleks.github.io/anywhere-ui-showcase",
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "scripts": {
+    "build": "stencil build --docs",
+    "build.watch": "stencil build --watch --serve",
+    "build-prerender": "stencil build --prerender",
+    "start": "stencil build --dev --watch --serve & npm run watch-scss",
+    "test": "stencil test --spec",
+    "test.watch": "stencil test --spec --watch",
+    "test.e2e": "stencil test --e2e",
+    "generate": "stencil generate",
+    "watch-scss": "dart-sass --watch src/app/scss/app.scss:src/app/css/app.css",
+    "deploy-docs": "bash scripts/clear-www.sh && npm run build && node scripts/docs.js && cd www && git add --all && git commit -m \"deployed site to master\" && git push --set-upstream origin master && cd ..",
+    "initialize-ghpages": "bash scripts/initialize-stencil-ghpages-repo.sh",
+    "deploy-site-to-master": "bash scripts/deploy-site-to-master.sh"
+  },
+  "devDependencies": {
+    "@iconify/iconify": "^3.1.0",
+    "@stencil/angular-output-target": "0.4.0",
+    "@stencil/core": "^2.22.2",
+    "@stencil/react-output-target": "^0.3.1",
+    "@stencil/sass": "^2.0.3",
+    "@stencil/vue-output-target": "^0.6.2",
+    "@types/clusterize.js": "^0.18.1",
+    "@types/jest": "^29.4.0",
+    "@types/lodash": "^4.14.191",
+    "@types/puppeteer": "^5.4.7",
+    "clusterize.js": "^0.19.0",
+    "clusterize.js-paging": "^1.0.3",
+    "dart-sass": "^1.25.0",
+    "faker": "^6.6.6",
+    "fs-extra": "^10.1.0",
+    "jest": "29.0.3",
+    "jest-cli": "29.0.3",
+    "lodash": "^4.17.21",
+    "prismjs": "^1.29.0",
+    "puppeteer": "^18.2.1",
+    "rebase": "^0.3.0",
+    "replace": "^1.2.2",
+    "rollup-plugin-node-polyfills": "^0.2.1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@anywhere-ui/flex": "^1.0.2",
+    "@types/node": "^18.11.18",
+    "build": "^0.1.4",
+    "run": "^1.4.0"
+  },
+  "buildnum": "13"
+}
