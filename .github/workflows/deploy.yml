@@ -1,0 +1,115 @@
+name: Deployment Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+  release:
+    types: [published]
+
+env:
+  PREVIEW_ENV: Preview
+  PRODUCTION_ENV: Production
+
+jobs:
+  deploy_preview:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: Preview
+      url: https://gjovanovicst.github.io/anywhere-ui-ci-cd-preview
+    steps:
+      - name: Checkout Main Project
+        uses: actions/checkout@v2
+        with:
+          path: anywhere-ui-ci-cd-test
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Code
+        run: npm run build.core
+
+      - name: Checkout Preview Project
+        uses: actions/checkout@master
+        with:
+          repository: gjovanovicst/anywhere-ui-ci-cd-preview
+          token: ${{ secrets.ACCESS_TOKEN }}
+          path: ./anywhere-ui-ci-cd-preview
+
+      - name: Copy/Create file
+        run: |
+          FILES=./anywhere-ui-ci-cd-test/packages/core/www
+          if [ -d "$FILES" ]; then
+            echo "Copying $FILES"
+            cp -R ./anywhere-ui-ci-cd-test/packages/core/www/* ./anywhere-ui-ci-cd-preview
+          else 
+            echo "There is no www folder. Make sure that you build site."
+          fi
+      - name: Push Deployment Preview project
+        run: |
+          cd ./anywhere-ui-ci-cd-preview
+          git add .
+          if ! git diff-index --quiet HEAD; then
+            git config user.name gjovanovicst
+            git config user.email gjovanovic.st@gmail.com
+            git commit -am "File Replicated from deploy-site"
+            git push
+          else
+            echo "Nothing to commit, working tree clean"
+          fi
+
+  deploy_production:
+    runs-on: ubuntu-latest
+    # needs: deploy_preview
+    if: startsWith(github.ref_name, 'v')
+    environment:
+      name: Production
+      url: https://gjovanovicst.github.io/anywhere-ui-ci-cd-production
+    steps:
+      - name: Checkout Main Project
+        uses: actions/checkout@v2
+        with:
+          path: anywhere-ui-ci-cd-test
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Code
+        run: npm run build.core
+
+      - name: Checkout Production Project
+        uses: actions/checkout@master
+        with:
+          repository: gjovanovicst/deploy-site-production
+          token: ${{ secrets.ACCESS_TOKEN }}
+          path: ./deploy-site-production
+
+      - name: Copy/Create file
+        run: |
+          FILES=./anywhere-ui-ci-cd-test/packages/core/www
+          if [ -d "$FILES" ]; then
+            echo "Copying $FILES"
+            cp -R ./anywhere-ui-ci-cd-test/packages/core/www/* ./deploy-site-production
+          else 
+            echo "There is no www folder. Make sure that you build site."
+          fi
+      - name: Push Deployment Production project
+        run: |
+          cd ./deploy-site-production
+          git add .
+          if ! git diff-index --quiet HEAD; then
+            git config user.name gjovanovicst
+            git config user.email gjovanovic.st@gmail.com
+            git commit -am "File Replicated from deploy-site"
+            git push
+          else
+            echo "Nothing to commit, working tree clean"
+          fi
