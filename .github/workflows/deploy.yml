@@ -31,7 +31,7 @@ jobs:
           node-version: 14
 
       - name: Install dependencies
-        run: cd anywhere-ui-ci-cd-test && npm ci
+        run: cd anywhere-ui-ci-cd-test && npm ci && && npm run install-all
       - name: Build Code
         run: cd anywhere-ui-ci-cd-test && npm run build.core
 
@@ -81,7 +81,7 @@ jobs:
         with:
           node-version: 14
       - name: Install dependencies
-        run: cd anywhere-ui-ci-cd-test && npm ci
+        run: cd anywhere-ui-ci-cd-test && npm ci && && npm run install-all
       - name: Build Code
         run: cd anywhere-ui-ci-cd-test && npm run build.core
 
