@@ -35,7 +35,8 @@ jobs:
       - name: Build Code
         run: |
           cd anywhere-ui-ci-cd-test
-          npm run build.core && grunt buildnumber && grunt release:build:auto && node packages/core/scripts/update-template-version.js
+          grunt buildnumber && grunt release:build:auto && node packages/core/scripts/update-template-version.js
+          npm run build.core
           cd packages/core && node scripts/docs.js anywhere-ui-ci-cd-preview
 
       - name: Checkout Preview Project
@@ -88,7 +89,8 @@ jobs:
       - name: Build Code
         run: |
           cd anywhere-ui-ci-cd-test
-          npm run build.core && grunt buildnumber && grunt release:build && node packages/core/scripts/update-template-version.js
+          grunt buildnumber && grunt release:build && node packages/core/scripts/update-template-version.js
+          npm run build.core
           cd packages/core && node scripts/docs.js anywhere-ui-ci-cd-production
 
       - name: Checkout Production Project
