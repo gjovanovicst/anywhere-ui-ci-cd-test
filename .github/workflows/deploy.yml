@@ -35,7 +35,6 @@ jobs:
       - name: Build Code
         run: |
           cd anywhere-ui-ci-cd-test
-          grunt buildnumber && grunt release:build:auto && node packages/core/scripts/update-template-version.js
           npm run build.core
           cd packages/core && node scripts/docs.js anywhere-ui-ci-cd-preview
 
