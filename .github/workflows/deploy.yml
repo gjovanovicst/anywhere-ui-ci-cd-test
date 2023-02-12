@@ -31,10 +31,11 @@ jobs:
           node-version: 14
 
       - name: Install dependencies
-        run: cd anywhere-ui-ci-cd-test && npm ci && npm run install-all
+        run: cd anywhere-ui-ci-cd-test && npm ci && npm run install-all && npm install grunt -g
       - name: Build Code
         run: |
-          cd anywhere-ui-ci-cd-test && npm run build.core
+          cd anywhere-ui-ci-cd-test
+          npm run build.core && grunt buildnumber && grunt release:build:auto && node packages/core/scripts/update-template-version.js
           cd packages/core && node scripts/docs.js anywhere-ui-ci-cd-preview
 
       - name: Checkout Preview Project
@@ -83,10 +84,11 @@ jobs:
         with:
           node-version: 14
       - name: Install dependencies
-        run: cd anywhere-ui-ci-cd-test && npm ci && npm run install-all
+        run: cd anywhere-ui-ci-cd-test && npm ci && npm run install-all && npm install grunt -g
       - name: Build Code
         run: |
-          cd anywhere-ui-ci-cd-test && npm run build.core
+          cd anywhere-ui-ci-cd-test
+          npm run build.core && grunt buildnumber && grunt release:build && node packages/core/scripts/update-template-version.js
           cd packages/core && node scripts/docs.js anywhere-ui-ci-cd-production
 
       - name: Checkout Production Project
